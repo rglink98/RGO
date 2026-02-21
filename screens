@@ -1,0 +1,37 @@
+
+import React, { useState } from 'react';
+
+const AboutScreen: React.FC = () => {
+    const [notes, setNotes] = useState('');
+
+    return (
+        <div className="space-y-6">
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-white">RGO অ্যাপ সম্পর্কে</h1>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <img 
+                    src="https://picsum.photos/800/400" 
+                    alt="Office" 
+                    className="rounded-lg w-full h-48 object-cover mb-6"
+                />
+                <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-4">আমাদের লক্ষ্য</h2>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    RGO অ্যাপটি আপনার অফিসের দৈনন্দিন আয়, ব্যয়, বকেয়া এবং কর্মীদের হাজিরার হিসাব রাখার প্রক্রিয়াকে সহজ করার জন্য ডিজাইন করা হয়েছে। এটি একটি আধুনিক, ব্যবহারকারী-বান্ধব ড্যাশবোর্ড সরবরাহ করে যা আপনাকে আপনার আর্থিক অবস্থার একটি পরিষ্কার চিত্র দেয়।
+                </p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <h2 className="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">নোট লিখে রাখুন</h2>
+                <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="আপনার প্রয়োজনীয় নোট এখানে লিখুন..."
+                    rows={6}
+                    className="w-full p-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                ></textarea>
+            </div>
+        </div>
+    );
+};
+
+export default AboutScreen;
