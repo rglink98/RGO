@@ -1,4 +1,4 @@
-project-root/
+
 ├─ src/
 │   ├─ App.tsx
 │   └─ components/
