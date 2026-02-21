@@ -35,3 +35,132 @@ const AboutScreen: React.FC = () => {
 };
 
 export default AboutScreen;
+
+
+screens/HomeScreen.tsx
+
+
+
+import React from 'react';
+import DashboardCard from '@/components/DashboardCard';
+
+interface HomeScreenProps {
+    totals: {
+        totalIncome: number;
+        totalExpense: number;
+        totalDues: number;
+        currentCash: number;
+    };
+}
+
+const HomeScreen: React.FC<HomeScreenProps> = ({ totals }) => {
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat('bn-BD', { style: 'currency', currency: 'BDT' }).format(amount);
+    };
+
+    return (
+        <div className="space-y-6">
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-white">ড্যাশবোর্ড</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <DashboardCard 
+                    title="টোটাল আয়" 
+                    value={formatCurrency(totals.totalIncome)}
+                    icon={<i className="fa-solid fa-arrow-up text-green-800"></i>}
+                    colorClass="bg-green-100 dark:bg-green-900"
+                />
+                <DashboardCard 
+                    title="টোটাল ব্যয়" 
+                    value={formatCurrency(totals.totalExpense)}
+                    icon={<i className="fa-solid fa-arrow-down text-red-800"></i>}
+                    colorClass="bg-red-100 dark:bg-red-900"
+                />
+                <DashboardCard 
+                    title="টোটাল বকেয়া" 
+                    value={formatCurrency(totals.totalDues)}
+                    icon={<i className="fa-solid fa-hourglass-half text-yellow-800"></i>}
+                    colorClass="bg-yellow-100 dark:bg-yellow-900"
+                />
+                <DashboardCard 
+                    title="বর্তমান ক্যাশ" 
+                    value={formatCurrency(totals.currentCash)}
+                    icon={<i className="fa-solid fa-wallet text-blue-800"></i>}
+                    colorClass="bg-blue-100 dark:bg-blue-900"
+                />
+            </div>
+        </div>
+    );
+};
+
+export default HomeScreen;
+
+
+screens/MenuScreen.tsx
+
+
+
+import React, { useState } from 'react';
+import { TransactionType } from '@/types';
+import IncomeForm from '@/forms/IncomeForm';
+import ExpenseForm from '@/forms/ExpenseForm';
+import DuesForm from '@/forms/DuesForm';
+import AttendanceForm from '@/forms/AttendanceForm';
+
+type ActiveForm = TransactionType | null;
+
+interface MenuScreenProps {
+    onAddTransaction: (type: TransactionType, data: any) => void;
+}
+
+const MenuScreen: React.FC<MenuScreenProps> = ({ onAddTransaction }) => {
+    const [activeForm, setActiveForm] = useState<ActiveForm>(null);
+
+    const renderForm = () => {
+        if (!activeForm) return null;
+        
+        const closeForm = () => setActiveForm(null);
+
+        switch (activeForm) {
+            case 'income':
+                return <IncomeForm onSubmit={(data) => { onAddTransaction('income', data); closeForm(); }} onCancel={closeForm} />;
+            case 'expense':
+                return <ExpenseForm onSubmit={(data) => { onAddTransaction('expense', data); closeForm(); }} onCancel={closeForm} />;
+            case 'dues':
+                return <DuesForm onSubmit={(data) => { onAddTransaction('dues', data); closeForm(); }} onCancel={closeForm} />;
+            case 'attendance':
+                return <AttendanceForm onSubmit={(data) => { onAddTransaction('attendance', data); closeForm(); }} onCancel={closeForm} />;
+            default:
+                return null;
+        }
+    };
+    
+    const menuItems: { label: string; form: ActiveForm; icon: string }[] = [
+        { label: "ইনকাম এন্ট্রি", form: "income", icon: "fa-plus-circle" },
+        { label: "খরচ এন্ট্রি", form: "expense", icon: "fa-minus-circle" },
+        { label: "হাজিরা এন্ট্রি", form: "attendance", icon: "fa-user-check" },
+        { label: "বকেয়া এন্ট্রি", form: "dues", icon: "fa-file-invoice-dollar" },
+    ];
+
+    if (activeForm) {
+        return renderForm();
+    }
+
+    return (
+        <div>
+            <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">মেনু</h1>
+            <div className="grid grid-cols-2 gap-4">
+                {menuItems.map(item => (
+                     <button
+                        key={item.label}
+                        onClick={() => setActiveForm(item.form)}
+                        className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center flex flex-col items-center justify-center space-y-2"
+                    >
+                        <i className={`fas ${item.icon} text-3xl text-blue-500`}></i>
+                        <span className="font-semibold text-gray-700 dark:text-gray-200">{item.label}</span>
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default MenuScreen;
