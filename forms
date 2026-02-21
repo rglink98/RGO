@@ -1,0 +1,75 @@
+
+import React, { useState } from 'react';
+import { Attendance } from '@/types';
+
+interface AttendanceFormProps {
+    onSubmit: (data: Omit<Attendance, 'id'>) => void;
+    onCancel: () => void;
+}
+
+const FormInput: React.FC<{ label: string; id: string; type: string; value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; required?: boolean }> = 
+({ label, id, type, value, onChange, required }) => (
+    <div>
+        <label htmlFor={id} className="block text-sm font-medium text-gray-600 dark:text-gray-300">{label}</label>
+        <input
+            id={id}
+            name={id}
+            type={type}
+            value={value}
+            onChange={onChange}
+            required={required}
+            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        />
+    </div>
+);
+
+
+const AttendanceForm: React.FC<AttendanceFormProps> = ({ onSubmit, onCancel }) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        employeeId: '',
+        date: '',
+        status: 'উপস্থিত' as 'উপস্থিত' | 'অনুপস্থিত',
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSubmit(formData);
+    };
+
+    return (
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">হাজিরা এন্ট্রি ফরম</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <FormInput label="নাম" id="name" type="text" value={formData.name} onChange={handleChange} required />
+                <FormInput label="কর্মচারী আইডি" id="employeeId" type="text" value={formData.employeeId} onChange={handleChange} required />
+                <FormInput label="তারিখ" id="date" type="date" value={formData.date} onChange={handleChange} required />
+                <div>
+                    <label htmlFor="status" className="block text-sm font-medium text-gray-600 dark:text-gray-300">স্ট্যাটাস</label>
+                    <select
+                        id="status"
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        required
+                        className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    >
+                        <option value="উপস্থিত">উপস্থিত</option>
+                        <option value="অনুপস্থিত">অনুপস্থিত</option>
+                    </select>
+                </div>
+                <div className="flex justify-end space-x-3 pt-4">
+                    <button type="button" onClick={onCancel} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-200">বাতিল</button>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-200">জমা দিন</button>
+                </div>
+            </form>
+        </div>
+    );
+};
+
+export default AttendanceForm;
