@@ -1,3 +1,84 @@
+forms/IncomeForm.tsx
+
+
+import React, { useState } from 'react';
+import { Income } from '@/types';
+
+interface IncomeFormProps {
+    onSubmit: (data: Omit<Income, 'id'>) => void;
+    onCancel: () => void;
+}
+
+const FormInput: React.FC<{ label: string; id: string; type: string; value: string | number; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; placeholder?: string; required?: boolean }> = 
+({ label, id, type, value, onChange, placeholder, required }) => (
+    <div>
+        <label htmlFor={id} className="block text-sm font-medium text-gray-600 dark:text-gray-300">{label}</label>
+        <input
+            id={id}
+            type={type}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            required={required}
+            className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        />
+    </div>
+);
+
+const IncomeForm: React.FC<IncomeFormProps> = ({ onSubmit, onCancel }) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        type: '',
+        item: '',
+        receiptCount: '',
+        amount: '',
+        comment: '',
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const submittedData = {
+            ...formData,
+            receiptCount: parseInt(formData.receiptCount, 10) || 0,
+            amount: parseFloat(formData.amount) || 0,
+        };
+        onSubmit(submittedData);
+    };
+
+    return (
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">ইনকাম এন্ট্রি ফরম</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <FormInput label="নাম" id="name" type="text" value={formData.name} onChange={handleChange} required />
+                <FormInput label="টাইপ" id="type" type="text" value={formData.type} onChange={handleChange} required />
+                <FormInput label="আইটেম" id="item" type="text" value={formData.item} onChange={handleChange} required />
+                <FormInput label="রিসিট কাউন্ট" id="receiptCount" type="number" value={formData.receiptCount} onChange={handleChange} required />
+                <FormInput label="টাকা" id="amount" type="number" value={formData.amount} onChange={handleChange} required />
+                <div>
+                    <label htmlFor="comment" className="block text-sm font-medium text-gray-600 dark:text-gray-300">মন্তব্য</label>
+                    <textarea id="comment" name="comment" value={formData.comment} onChange={handleChange} rows={3} className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
+                <div className="flex justify-end space-x-3 pt-4">
+                    <button type="button" onClick={onCancel} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-200">বাতিল</button>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-200">জমা দিন</button>
+                </div>
+            </form>
+        </div>
+    );
+};
+
+export default IncomeForm;
+
+
+
+
+
+
 
 import React, { useState } from 'react';
 import { Attendance } from '@/types';
