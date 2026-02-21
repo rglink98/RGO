@@ -1,4 +1,8 @@
-
+project-root/
+├─ src/
+│   ├─ App.tsx
+│   └─ components/
+│       └─ BottomNav.tsx
 import React, { useState, useMemo, useCallback } from 'react';
 import { Income, Expense, Dues, Attendance, LinkItem, ActiveScreen, TransactionType } from './types';
 import BottomNav from './components/BottomNav';
