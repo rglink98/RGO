@@ -2,12 +2,12 @@ import React from 'react';
 import { ActiveScreen } from '../types';
 import { HomeIcon, MenuIcon, LinkIcon, AboutIcon } from './icons/Icons';
 
-interface BottomNavProps {
+interface BottomNav {
     activeScreen: ActiveScreen;
     setActiveScreen: (screen: ActiveScreen) => void;
 }
 
-const BottomNav: React.FC<BottomNavProps> = ({ activeScreen, setActiveScreen }) => {
+const BottomNav: React.FC<BottomNav> = ({ activeScreen, setActiveScreen }) => {
     const navItems = [
         { id: 'home', label: 'হোম', icon: <HomeIcon /> },
         { id: 'menu', label: 'মেনু', icon: <MenuIcon /> },
