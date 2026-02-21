@@ -1,10 +1,10 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Income, Expense, Dues, Attendance, LinkItem, ActiveScreen, TransactionType } from './types';
-import BottomNav from './components/BottomNav';
-import HomeScreen from './screens/HomeScreen';
-import MenuScreen from './screens/MenuScreen';
-import LinksScreen from './screens/LinksScreen';
-import AboutScreen from './screens/AboutScreen';
+import { Income, Expense, Dues, Attendance, LinkItem, ActiveScreen, TransactionType } from '@/types';
+import BottomNav from '@/components/BottomNav';
+import HomeScreen from '@/screens/HomeScreen';
+import MenuScreen from '@/screens/MenuScreen';
+import LinksScreen from '@/screens/LinksScreen';
+import AboutScreen from '@/screens/AboutScreen';
 
 const App: React.FC = () => {
     const [activeScreen, setActiveScreen] = useState<ActiveScreen>('home');
