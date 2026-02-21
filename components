@@ -2,6 +2,10 @@ import React from 'react';
 import { ActiveScreen } from '../types';
 import { HomeIcon, MenuIcon, LinkIcon, AboutIcon } from './icons/Icons';
 
+git add components/BottomNav.tsx
+git commit -m "Add BottomNav"
+git push
+
 interface BottomNav {
     activeScreen: ActiveScreen;
     setActiveScreen: (screen: ActiveScreen) => void;
