@@ -1,0 +1,5 @@
+{
+  "name": "RGO",
+  "description": "An official dashboard and database application for managing income, expenses, dues, attendance, and links.",
+  "requestFramePermissions": []
+}
