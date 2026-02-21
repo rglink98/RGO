@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Income, Expense, Dues, Attendance, LinkItem, ActiveScreen, TransactionType } from './types';
 import BottomNav from './components/BottomNav';
 import HomeScreen from './screens/HomeScreen';
@@ -73,6 +74,7 @@ const App: React.FC = () => {
                 </div>
             </main>
             <BottomNav activeScreen={activeScreen} setActiveScreen={setActiveScreen} />
+            <Analytics />
         </div>
     );
 };
